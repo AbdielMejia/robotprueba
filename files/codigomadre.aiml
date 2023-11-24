@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+    <!-- Categoría de bienvenida -->
+    <category>
+        <pattern>HOLA</pattern>
+        <template>
+            Un saludo cordial, sea bienvenido. <br/>
+            Soy su chatbot del restaurante T'áanik K'íiwik. <br/>
+            Somos un restaurante especializado en comida maya estilo gourmet. <br/>
+            Por el momento manejamos:
+            <br/>- Entradas.
+            <br/>- Sopas. 
+            <br/>- Platos fuertes.
+            <br/>- Postres.
+            <br/>- Nectares.<br/>
+            Además, tenga en cuenta que algunas opciones del menú contienen alcohol. ¿Qué desea degustar el día de hoy?
+        </template>
+    </category>
+
+    <!-- Variable para llevar un registro del pedido actual -->
+    <category>
+        <pattern>*</pattern>
+        <template>
+            <think>
+                <!-- Inicializar la variable de pedido si no está presente -->
+                <set name="pedido_actual"><get name="pedido_actual"/></set>
+            </think>
+            Actualmente, su pedido incluye: <get name="pedido_actual"/>.
+            <br/>¿Desea agregar algo más, ir al menú principal o pagar?
+        </template>
+    </category>
+
+    <!-- Categoría para describir las entradas -->
+    <category>
+        <pattern>ENTRADAS</pattern>
+        <template>
+            Ofrecemos una variedad de entradas mayas deliciosas, entre ellas:
+            <br/>- Empanadas de cochinita pibil
+            <br/>- Tostadas de ceviche de pescado
+            <br/>- Tamalitos de chipilín
+            <br/>
+            ¿Hay alguna en particular que le gustaría probar?<br/>
+            Por favor, responda con un "Quiero probar"
+        </template>
+    </category>
+
+    <!-- Categoría para describir las sopas -->
+    <category>
+        <pattern>SOPAS</pattern>
+        <template>
+            Nuestras sopas mayas incluyen opciones como:
+            <br/>- Sopa de Lima
+            <br/>- Caldo de Pollo con Verduras
+            <br/>- Sopa de Frijol Negro
+            <br/>
+            ¿Desea probar alguna de estas deliciosas sopas o prefiere explorar otras secciones del menú?
+        </template>
+    </category>
+
+    <!-- Categoría para describir los platos fuertes -->
+    <category>
+        <pattern>PLATOS FUERTES</pattern>
+        <template>
+            Entre nuestros platos fuertes mayas destacamos:
+            <br/>- Cochinita Pibil con Acompañamiento
+            <br/>- Pescado Tikin Xic con Arroz
+            <br/>- Pollo Pibil con Verduras Asadas
+            <br/>
+            ¿Algún plato fuerte específico que le gustaría ordenar o desea explorar más opciones?
+        </template>
+    </category>
+
+    <!-- Categoría para describir los postres -->
+    <category>
+        <pattern>POSTRES</pattern>
+        <template>
+            Para culminar su experiencia, le recomendamos nuestros postres mayas:
+            <br/>- Flan de Coco
+            <br/>- Pastel de Chocolate con Mole
+            <br/>- Bunuelos con Miel
+            <br/>
+            ¿Algún postre en particular que le haga antojar o prefiere echar un vistazo a otras secciones del menú?
+        </template>
+    </category>
+
+    <!-- Categoría para describir los nectares -->
+    <category>
+        <pattern>NECTARES</pattern>
+        <template>
+            Además, ofrecemos nectares y bebidas especiales:
+            <br/>- Néctar de Xtabentún
+            <br/>- Chaya Fresca
+            <br/>- Agua de Horchata Maya
+            <br/>
+            Tenga en cuenta que algunas opciones contienen alcohol. ¿Desea probar algún néctar o bebida en particular o prefiere explorar más opciones?
+        </template>
+    </category>
+
+    <!-- Categoría para redirigir a las opciones de entradas, sopas, platos fuertes, postres y nectares -->
+    <category>
+        <pattern>* ENTRADAS Y SOPAS Y PLATOS FUERTES Y POSTRES Y NECTARES</pattern>
+        <template>
+            <srai>ENTRADAS</srai>
+        </template>
+    </category>
+
+    <!-- Categoría para manejar la elección de una entrada, sopa, plato fuerte, postre o néctar -->
+    <category>
+        <pattern>QUIERO PROBAR *</pattern>
+        <template>
+            <think><set name="seleccionado"><star/></set></think>
+            ¡Excelente elección! ¿Le gustaría agregar algo más a su pedido o preferiría ir al menú principal o pagar?
+        </template>
+    </category>
+
+    <!-- Categoría para manejar la elección de agregar algo más al pedido -->
+    <category>
+        <pattern>AGREGAR *</pattern>
+        <template>
+            <!-- Agregar el elemento seleccionado al pedido actual -->
+            <think><set name="pedido_actual"><get name="pedido_actual"/><get name="seleccionado"/> y </set></think>
+            ¿Hay algo más que le gustaría agregar o ¿preferiría ir al menú principal o pagar?
+        </template>
+    </category>
+
+    <!-- Categoría para manejar la elección de ir al menú principal -->
+    <category>
+        <pattern>IR AL MENU</pattern>
+        <template>
+            Volviendo al menú principal. <br/>
+            <srai>HOLA</srai>
+        </template>
+    </category>
+
+    <!-- Categoría para manejar la elección de pagar -->
+    <category>
+        <pattern>PAGAR</pattern>
+        <template>
+            Su pedido actual incluye: <get name="pedido_actual"/>.
+            <br/>Por favor, espere un momento mientras procesamos su pago.
+            <!-- Aquí podrías agregar la lógica de pago real o redirigir a un sistema externo. -->
+        </template>
+    </category>
+
+    <!-- Categoría por defecto en caso de preguntas no específicas -->
+    <category>
+        <pattern>*</pattern>
+        <template>
+            Actualmente, ofrecemos empanadas de cochinita pibil, tostadas de ceviche de pescado, tamalitos de chipilín, Sopa de Lima, Caldo de Pollo con Verduras, Sopa de Frijol Negro, Cochinita Pibil con Acompañamiento, Pescado Tikin Xic con Arroz, Pollo Pibil con Verduras Asadas, Flan de Coco, Pastel de Chocolate con Mole, Bunuelos con Miel, Néctar de Xtabentún, Chaya Fresca, Agua de Horchata Maya y más. ¿Hay algo específico que le gustaría probar?
+        </template>
+    </category>
+</aiml>
